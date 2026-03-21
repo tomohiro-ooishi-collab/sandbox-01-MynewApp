@@ -9,20 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Image("mainCharacter1")
-            .resizable()
-            .scaledToFit()
-        Text("Hello, swift!")
-    }
-
-    var chara2: some View{
         VStack {
-            Image("mainCharacter2")
-                .resizable()
-                .scaledToFit()
-            Text("Hello, swift!")
+            var isMain = true
+            Button("Change"){
+                isMain.toggle()
+                print(isMain)
+                print(isMain ? "Hello":"Good bye")
+            }
         }
     }
+}
 #Preview {
     ContentView()
 }
