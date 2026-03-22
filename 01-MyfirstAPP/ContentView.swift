@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    let names = ["りんご", "バナナ", "ぶどう"]
+    let descriptions = ["赤い果物", "黄色い果物", "小さい果物"]
+    
     var body: some View {
-        VStack {
-            var isMain = true
-            Button("Change"){
-                isMain.toggle()
-                print(isMain)
-                print(isMain ? "Hello":"Good bye")
+        List(0...2, id: \.self) { index in
+            VStack {
+                Text(names[index])
+                Text(descriptions[index])
             }
         }
     }
