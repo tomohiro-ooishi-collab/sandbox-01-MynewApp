@@ -7,19 +7,25 @@
 
 import SwiftUI
 
+struct Word: Identifiable {
+    let id = UUID()
+    let term: String
+    let meaning: String
+    var isMemorized: Bool   // ← 変更（可変にする）
+}
+
 struct ContentView: View {
-    let names = ["りんご", "バナナ", "ぶどう"]
-    let descriptions = ["赤い果物", "黄色い果物", "小さい果物"]
-    
+    // 配列を構造体でまとめる
+    var words = [
+        Word(term: "school", meaning: "学校", isMemorized: false),
+        Word(term: "home", meaning: "家", isMemorized: false),
+        Word(term: "desk", meaning: "机", isMemorized: true)
+    ]
     var body: some View {
-        List(0...2, id: \.self) { index in
-            VStack {
-                Text(names[index])
-                Text(descriptions[index])
-            }
-        }
+        
     }
 }
+
 #Preview {
     ContentView()
 }
