@@ -7,19 +7,19 @@
 
 import SwiftUI
 
-struct Word: Identifiable {
+//構造体の定義 型の変更や項目の追加も可能
+struct Item: Identifiable {
     let id = UUID()
-    let term: String
-    let meaning: String
-    var isMemorized: Bool   // ← 変更（可変にする）
+    let term: String //項目名
+    let meaning: String //意味や説明,詳細
+    var isChecked: Bool   // ← チェックされたか
 }
 
 struct ContentView: View {
-    // 配列を構造体でまとめる
-    var words = [
-        Word(term: "school", meaning: "学校", isMemorized: false),
-        Word(term: "home", meaning: "家", isMemorized: false),
-        Word(term: "desk", meaning: "机", isMemorized: true)
+    // データ配列を構造体でまとめる
+    var items = [
+        Item(term: "見本1", meaning: "見本の説明1", isChecked: false),
+        Item(term: "見本2", meaning: "見本の説明2", isChecked: false)
     ]
     var body: some View {
         
