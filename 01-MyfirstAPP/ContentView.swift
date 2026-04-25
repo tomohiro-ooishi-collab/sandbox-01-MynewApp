@@ -22,7 +22,7 @@ struct ContentView: View {
         Item(term: "見本2", meaning: "見本の説明2", isChecked: false)
     ]
     var body: some View {
-        
+        //UIをここに書こう
     }
 }
 
