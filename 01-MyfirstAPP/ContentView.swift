@@ -7,13 +7,37 @@
 
 import SwiftUI
 
+struct Task: Identifiable {
+    let id = UUID()
+    var name: String //Todoの名前
+    var meaning: String? //ToDoの説明,詳細
+    var deadLine:Date? //締め切り
+    var isChecked: Bool   // ← チェックされたか
+}
+
+
 struct ContentView: View {
+    @State var tasks: [Task] = [
+        Task(name: "買い物", meaning: "牛乳", deadLine: nil, isChecked: false),
+        Task(name: "課題", meaning: nil, deadLine: Date(), isChecked: false),
+        Task(name: "運動", meaning: "ランニング30分", deadLine: nil, isChecked: true)
+    ]
     var body: some View {
-        VStack{
-            Image("mainCharacter1")
-                .resizable()
-                .scaledToFit()
-            Text("これは主人公です")
+        NavigationStack{
+            VStack{
+                List($tasks){ $currentTask in
+                    NavigationLink(
+                        destination:DetailView(selectedTask:$currentTask)
+                ){
+                        HStack{
+                            Text(currentTask.name)
+                            if let meaning = currentTask.meaning{
+                                Text(meaning)
+                            }
+                        }
+                    }
+                }
+            }
             
         }
     }
