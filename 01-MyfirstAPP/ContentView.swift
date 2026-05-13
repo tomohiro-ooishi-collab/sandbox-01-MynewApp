@@ -38,7 +38,35 @@ struct ContentView: View {
                     }
                 }
             }
-            
+            .toolbar {
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    
+                    NavigationLink {
+                        
+                        DetailView(
+                            selectedTask: $tasks[tasks.count - 1]
+                        )
+                        
+                    } label: {
+                        
+                        Image(systemName: "plus")
+                    }
+                    .simultaneousGesture(
+                        TapGesture().onEnded {
+                            
+                            tasks.append(
+                                Task(
+                                    name: "",
+                                    meaning: "",
+                                    deadLine: nil,
+                                    isChecked: false
+                                )
+                            )
+                        }
+                    )
+                }
+            }
         }
     }
 }
