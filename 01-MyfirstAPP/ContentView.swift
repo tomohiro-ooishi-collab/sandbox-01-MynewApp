@@ -7,40 +7,52 @@
 
 import SwiftUI
 
-//Taskを格納するデータモデルの定義
-struct Task: Identifiable {
-    let id = UUID()
-    var name: String //Todoの名前
-    var meaning: String? //ToDoの説明,詳細
-    var deadLine:Date? //締め切り
-    var isChecked: Bool   // ← 完了したかのチェック
-}
-
-
 struct ContentView: View {
-    //データモデルから、tasksという配列を作成
-    var tasks: [Task] = [
-        Task(name: "買い物", meaning: "牛乳", deadLine: nil, isChecked: false),
-        Task(name: "課題", meaning: nil, deadLine: Date(), isChecked: false),
-        Task(name: "運動", meaning: "ランニング30分", deadLine: nil, isChecked: true)
-    ]
+    
+    @State var count: Int = 0
+    
     var body: some View {
-        NavigationStack{
-            VStack{
-                List(tasks){ currentTask in
-                    NavigationLink(
-                        destination:DetailView(selectedTask:currentTask)
-                ){
-                        HStack{
-                            Text(currentTask.name)
-                            if let meaning = currentTask.meaning{
-                                Text(meaning)
-                            }
-                        }
-                    }
-                }
-            }
+        VStack {
+            titleView
+            countButton
+            countText
+            resetButton
         }
+    }
+    
+    var titleView: some View {
+        Text("100万回推したら\nいいことがある\nボタン")
+            .bold()
+            .font(.largeTitle)
+            .multilineTextAlignment(.center)
+    }
+    
+    var countButton: some View {
+        Button("CountUp!!") {
+            count += 1
+        }
+        .buttonStyle(.borderedProminent)
+        .bold()
+        .shadow(radius: 5)
+    }
+    
+    var countText: some View {
+        Text(String(count))
+            .font(.system(size: 32, weight: .black))
+            .foregroundStyle(.white)
+            .padding()
+            .background(.orange)
+            .clipShape(.rect(cornerRadius: 20))
+            .shadow(radius: 5)
+    }
+    var resetButton: some View{
+        Button("RESET"){
+            count = 0
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(.gray)
+        .bold()
+        .shadow(radius: 5)
     }
 }
 
