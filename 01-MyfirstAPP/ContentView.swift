@@ -7,17 +7,19 @@
 
 import SwiftUI
 
+//Taskを格納するデータモデルの定義
 struct Task: Identifiable {
     let id = UUID()
     var name: String //Todoの名前
     var meaning: String? //ToDoの説明,詳細
     var deadLine:Date? //締め切り
-    var isChecked: Bool   // ← チェックされたか
+    var isChecked: Bool   // ← 完了したかのチェック
 }
 
 
 struct ContentView: View {
-    @State var tasks: [Task] = [
+    //データモデルから、tasksという配列を作成
+    var tasks: [Task] = [
         Task(name: "買い物", meaning: "牛乳", deadLine: nil, isChecked: false),
         Task(name: "課題", meaning: nil, deadLine: Date(), isChecked: false),
         Task(name: "運動", meaning: "ランニング30分", deadLine: nil, isChecked: true)
@@ -25,9 +27,9 @@ struct ContentView: View {
     var body: some View {
         NavigationStack{
             VStack{
-                List($tasks){ $currentTask in
+                List(tasks){ currentTask in
                     NavigationLink(
-                        destination:DetailView(selectedTask:$currentTask)
+                        destination:DetailView(selectedTask:currentTask)
                 ){
                         HStack{
                             Text(currentTask.name)
@@ -36,35 +38,6 @@ struct ContentView: View {
                             }
                         }
                     }
-                }
-            }
-            .toolbar {
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    
-                    NavigationLink {
-                        
-                        DetailView(
-                            selectedTask: $tasks[tasks.count - 1]
-                        )
-                        
-                    } label: {
-                        
-                        Image(systemName: "plus")
-                    }
-                    .simultaneousGesture(
-                        TapGesture().onEnded {
-                            
-                            tasks.append(
-                                Task(
-                                    name: "",
-                                    meaning: "",
-                                    deadLine: nil,
-                                    isChecked: false
-                                )
-                            )
-                        }
-                    )
                 }
             }
         }
