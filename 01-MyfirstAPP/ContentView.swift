@@ -7,54 +7,77 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    
-    @State var count: Int = 0
-    
-    var body: some View {
-        VStack {
-            titleView
-            countButton
-            countText
-            resetButton
-        }
-    }
-    
-    var titleView: some View {
-        Text("100万回推したら\nいいことがある\nボタン")
-            .bold()
-            .font(.largeTitle)
-            .multilineTextAlignment(.center)
-    }
-    
-    var countButton: some View {
-        Button("CountUp!!") {
-            count += 1
-        }
-        .buttonStyle(.borderedProminent)
-        .bold()
-        .shadow(radius: 5)
-    }
-    
-    var countText: some View {
-        Text(String(count))
-            .font(.system(size: 32, weight: .black))
-            .foregroundStyle(.white)
-            .padding()
-            .background(.orange)
-            .clipShape(.rect(cornerRadius: 20))
-            .shadow(radius: 5)
-    }
-    var resetButton: some View{
-        Button("RESET"){
-            count = 0
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(.gray)
-        .bold()
-        .shadow(radius: 5)
-    }
+struct Task: Identifiable {
+    let id = UUID()
+    var name: String
+    var meaning: String?
+    var deadLine: Date?
+    var isChecked: Bool
 }
+
+struct ContentView: View {
+
+    @State private var tasks: [Task] = []
+
+    @State private var selectedTaskID: UUID?
+
+    var body: some View {
+
+        NavigationStack {
+
+            List {
+
+                ForEach(tasks.indices, id: \.self) { index in
+
+                    NavigationLink(
+                        tasks[index].name.isEmpty
+                        ? "（未入力）"
+                        : tasks[index].name
+                    ) {
+                        DetailView(task: $tasks[index])
+                    }
+
+                }
+
+            }
+            .navigationTitle("ToDo一覧")
+            .toolbar {
+
+                ToolbarItem(placement: .topBarTrailing) {
+
+                    Button {
+
+                        let newTask = Task(
+                            name: "",
+                            meaning: "",
+                            deadLine: nil,
+                            isChecked: false
+                        )
+
+                        tasks.append(newTask)
+                        selectedTaskID = newTask.id
+
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+
+                }
+
+            }
+            .navigationDestination(item: $selectedTaskID) { taskID in
+
+                if let index = tasks.firstIndex(where: { $0.id == taskID }) {
+                    DetailView(task: $tasks[index])
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
 
 #Preview {
     ContentView()
